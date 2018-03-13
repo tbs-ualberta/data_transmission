@@ -5,6 +5,36 @@ void die(char *s){
 }
 
 int data_transmission::init_transmission(
+    char* ip_local_scp, short port_local_ss, int timeout_us){
+
+  // zero out the structure
+  memset((char *) &local, 0, sizeof(local));
+  remotelen = sizeof(remote);
+  local.sin_family = AF_INET;
+  local.sin_port = htons(port_local_ss);
+  local.sin_addr.s_addr = inet_addr(ip_local_scp);
+
+  if ((socketS = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+    die("socket");
+    return -1;
+  }
+
+  // set the timeout for recvfrom()
+  struct timeval read_timeout;
+  read_timeout.tv_sec = 0;
+  read_timeout.tv_usec = timeout_us;
+  setsockopt(
+      socketS, SOL_SOCKET, SO_RCVTIMEO, &read_timeout, sizeof read_timeout);
+
+  // bind the socket to the local IP and port
+  if (bind(socketS, (struct sockaddr*)&local, sizeof(local)) == -1) {
+    die("bind");
+    return -1;
+  }
+  return socketS;
+}
+
+int data_transmission::init_transmission(
     char* ip_local_scp, short port_local_ss){
 
   // zero out the structure
