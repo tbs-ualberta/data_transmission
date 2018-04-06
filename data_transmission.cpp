@@ -28,6 +28,35 @@ int data_transmission::init_transmission(
 }
 
 int data_transmission::init_transmission(
+    char* ip_local_scp, short port_local_ss, int rcvbuf_len){
+
+  // zero out the structure
+  memset((char *) &local, 0, sizeof(local));
+  remotelen = sizeof(remote);
+  local.sin_family = AF_INET;
+  local.sin_port = htons(port_local_ss);
+  local.sin_addr.s_addr = inet_addr(ip_local_scp);
+
+  if ((socketS = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+    die("socket");
+    return -1;
+  }
+
+  if (setsockopt(socketS, SOL_SOCKET, SO_RCVBUF, &rcvbuf_len,
+      sizeof(rcvbuf_len)) == -1) {
+    die("setsockopt SO_RCVBUF");
+    return -1;
+  }
+
+  // bind the socket to the local IP and port
+  if (bind(socketS, (struct sockaddr*)&local, sizeof(local)) == -1) {
+    die("bind");
+    return -1;
+  }
+  return socketS;
+}
+
+int data_transmission::init_transmission(
     char* ip_local_scp, short port_local_ss,
     char* ip_remote_scp, short port_remote_ss){
 

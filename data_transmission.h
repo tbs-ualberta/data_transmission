@@ -23,6 +23,7 @@ class data_transmission{
         char* ip_local_scp, short port_local_ss,
         char* ip_remote_scp, short port_remote_ss);
     int init_transmission(char* ip_address_scp, short port);
+    int init_transmission(char* ip_address_scp, short port, int rcvbuf_len);
     int send(char* array_scp, int len);
     int send(double* number_dbp, int len);
     int send(float* array_flp, int len);

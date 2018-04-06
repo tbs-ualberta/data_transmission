@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(measure_delay)
 add_compile_options(-std=c++11)
 
-set(VER_LIB 0.1.0)
+set(VER_LIB 0.2.0)
 
 include_directories(
     /usr/local/include/Timer
