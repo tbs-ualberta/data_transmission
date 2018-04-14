@@ -46,3 +46,8 @@ CTestTestfile.cmake
 
 # --- custom ---
 **/build/
+# clion project files
+.idea/
+# ignore cmake build folder
+cmake-build-*/
+*.pyc
