@@ -4,12 +4,13 @@
 #include <stdio.h>
 #include <iostream>
 #include <ctime>
-#include <arpa/inet.h>
-#include <sys/socket.h>
-#include <string.h>      //memset
-#include <sys/types.h>
-#include <netinet/in.h>
-
+#include <arpa/inet.h>   // For inet_addr()
+#include <sys/socket.h>  // For socket(), connect(), send(), and recv()
+#include <string.h>      // memset
+#include <sys/types.h>   // For data types
+#include <netinet/in.h>  // For sockaddr_in
+#include <unistd.h>          // For close()
+#include <fcntl.h> // fcntl
 using namespace std;
 
 /** \brief The class data_transmission containing convenience functions for
@@ -104,12 +105,15 @@ class data_transmission{
      * Function is not implemented, yet.
      */
     int close_transmission();
+    /**
+     * set NonBlockMode for socket
+     */
+    bool setNonBlocking(int sockfd);
     void num2charray(short in_ss, char* out_scp);
     void num2charray(short in_ss, char* out_scp, int* len_out_sip);
     void num2charray(unsigned short in_us, char* out_scp);
     void num2charray(unsigned short in_us, char* out_scp, int* len_out_sip);
     void charray2num(char* in_scp, short* out_ssp);
-
     short chararray2short(unsigned char *in_ch);
     unsigned char* short2chararray(short in_sh);
     unsigned char* short2chararray(unsigned short in_sh);

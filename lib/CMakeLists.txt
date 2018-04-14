@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 add_compile_options(-std=c++11)
-set(VER_LIB 0.2.0)
+#set(VER_LIB 0.2.0)
 
 #set (PROJECT_SOURCE_DECLARATION_DIRECTORY ${PROJECT_SOURCE_DIR}/include)
 #set (MAIN_FILE ${PROJECT_SOURCE_DEFINITION_DIRECTORY}/main.cc)
@@ -31,7 +31,7 @@ endif()
 #install(FILES data_transmission.h
 #    DESTINATION /usr/local/include/data_transmission/v${VER_LIB})
 install(TARGETS data_transmission boostudp
-        DESTINATION lib/data_transmission/v${VER_LIB})
+        DESTINATION lib/data_transmission/)
 install(FILES data_transmission.h boostudp.h
-        DESTINATION include/data_transmission/v${VER_LIB})
+        DESTINATION include/data_transmission/)
 

@@ -124,7 +124,7 @@ int data_transmission::listen(char* buffer_scp, int len){
 }
 
 int data_transmission::close_transmission(){
-  //close(socketS);
+  ::close(socketS);
 }
 
 void data_transmission::num2charray(short in_ss, char* out_scp){
@@ -169,4 +169,17 @@ unsigned char* data_transmission::short2chararray(unsigned short in_sh){
   temp[0] = (in_sh >> 8) & 0xFF;
   temp[1] = in_sh & 0x00FF;
   return temp;
+}
+
+bool data_transmission::setNonBlocking(int sockfd) {
+    int flag = fcntl(sockfd, F_GETFL, 0);
+    if (flag < 0) {
+        perror("fcntl F_GETFL fail");
+        return false;
+    }
+    if (fcntl(sockfd, F_SETFL, flag | O_NONBLOCK) < 0) {
+        perror("fcntl F_SETFL fail");
+        return false;
+    }
+    return true;
 }
