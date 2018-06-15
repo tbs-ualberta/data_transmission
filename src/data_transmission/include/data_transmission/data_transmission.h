@@ -1,17 +1,30 @@
 #ifndef DATA_TRANSMISSION_H
 #define DATA_TRANSMISSION_H
 
-#include <stdio.h>
-#include <iostream>
+#ifdef WIN32
+  #define _CRT_SECURE_NO_WARNINGS
+  #define _WINSOCK_DEPRECATED_NO_WARNINGS
+  #include <winsock2.h>
+  #include <Ws2tcpip.h>
+  #pragma comment(lib, "Ws2_32.lib")
+  #include <windows.h>
+  #include <crtdbg.h>
+#elif __linux__
+  #include <arpa/inet.h>   // For inet_addr()
+  #include <sys/socket.h>  // For socket(), connect(), send(), and recv()
+  #include <string.h>      // memset
+  #include <sys/types.h>   // For data types
+  #include <netinet/in.h>  // For sockaddr_in
+  #include <unistd.h>      // For close()
+  #include <fcntl.h>       // fcntl
+  using namespace std;
+#else
+  #error "Not implemented"
+#endif
+
 #include <ctime>
-#include <arpa/inet.h>   // For inet_addr()
-#include <sys/socket.h>  // For socket(), connect(), send(), and recv()
-#include <string.h>      // memset
-#include <sys/types.h>   // For data types
-#include <netinet/in.h>  // For sockaddr_in
-#include <unistd.h>          // For close()
-#include <fcntl.h> // fcntl
-using namespace std;
+#include <iostream>
+#include <stdio.h>
 
 /** \brief The class data_transmission containing convenience functions for
  *         intilizing UDP sockets and transmitting data.
@@ -21,7 +34,13 @@ class data_transmission{
   private:
     struct sockaddr_in local;
     struct sockaddr_in remote;
-    int remotelen, socketS;
+    int remotelen;
+    #ifdef WIN32
+      SOCKET socketS;
+      void InitWinsock();
+    #elif __linux__
+      int socketS;
+    #endif
     int do_send(char* buffer_scp, int len);
   public:
 
@@ -108,7 +127,9 @@ class data_transmission{
     /**
      * set NonBlockMode for socket
      */
-    bool setNonBlocking(int sockfd);
+    #ifdef __linux__
+      bool setNonBlocking(int sockfd);
+    #endif
     void num2charray(short in_ss, char* out_scp);
     void num2charray(short in_ss, char* out_scp, int* len_out_sip);
     void num2charray(unsigned short in_us, char* out_scp);
