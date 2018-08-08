@@ -57,7 +57,7 @@ int data_transmission::init_transmission(
 }
 
 int data_transmission::init_transmission(
-    char* ip_local_scp, short port_local_ss, char rcvbuf_len){
+    char* ip_local_scp, short port_local_ss, int rcvbuf_len){
 
   // zero out the structure
   memset((char *) &local, 0, sizeof(local));

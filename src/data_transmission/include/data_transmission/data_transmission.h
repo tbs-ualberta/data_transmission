@@ -71,7 +71,7 @@ class data_transmission{
      * @param rcvbuf_len Sets the length of SO_RCVBUF.
      * @see http://man7.org/linux/man-pages/man7/socket.7.html
      */
-    int init_transmission(char* ip_address_scp, short port, char rcvbuf_len);
+    int init_transmission(char* ip_address_scp, short port, int rcvbuf_len);
     /**
      * Sends a package containing an array of signed chars to the remote host
      * defined via init_transmission().
