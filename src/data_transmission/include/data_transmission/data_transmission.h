@@ -27,7 +27,7 @@
 #include <stdio.h>
 
 /** \brief The class data_transmission containing convenience functions for
- *         intilizing UDP sockets and transmitting data.
+ *         intializing UDP sockets and transmitting data.
  *
  */
 class data_transmission{
