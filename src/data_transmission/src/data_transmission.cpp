@@ -73,7 +73,8 @@ int data_transmission::init_transmission(
     //TODO Add error check (same as linux implementation)
     socketS = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-    setsockopt(socketS, SOL_SOCKET, SO_RCVBUF, &rcvbuf_len, sizeof(rcvbuf_len));
+    char rcvbuf_len_uc = (char)rcvbuf_len;
+    setsockopt(socketS, SOL_SOCKET, SO_RCVBUF, &rcvbuf_len_uc, sizeof(rcvbuf_len_uc));
 
     bind(socketS, (sockaddr*)&local, sizeof(local));
 
